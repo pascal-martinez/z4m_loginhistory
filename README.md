@@ -2,8 +2,9 @@
 The **z4m_loginhistory** module extends the [ZnetDK 4 Mobile](/../../../znetdk4mobile) starter application by adding the following features:
 - Stores in the application's MySQL database, the history of successful and failed user connections to the application.
 - Provides a view that displays in a list the history of user connections to the application.
+- Purge the entire history or only those corresponding to a given period and status.
 
-![Screenshot of the User Login History view provided by the ZnetDK 4 Mobile 'z4m_loginhistory' module](https://mobile.znetdk.fr/applications/default/public/images/modules/z4m_loginhistory/screenshot.png)
+![Screenshot of the User Login History view provided by the ZnetDK 4 Mobile 'z4m_loginhistory' module](https://mobile.znetdk.fr/applications/default/public/images/modules/z4m_loginhistory/screenshot.png?v1.1)
 ## LICENCE
 This module is published under the version 3 of GPL General Public Licence.
 
@@ -66,6 +67,9 @@ required SQL table.
 In this case, you can create the `zdk_user_login_history` SQL table by importing
 in MySQL or phpMyAdmin the script
 [`z4m_loginhistory.sql`](mod/sql/z4m_loginhistory.sql) provided by the module.
+
+## CHANGE LOG
+See [CHANGELOG.md](CHANGELOG.md) file.
 
 ## CONTRIBUTING
 Your contribution to the **ZnetDK 4 Mobile** project is welcome. Please refer to the [CONTRIBUTING.md](https://github.com/pascal-martinez/znetdk4mobile/blob/master/CONTRIBUTING.md) file.
