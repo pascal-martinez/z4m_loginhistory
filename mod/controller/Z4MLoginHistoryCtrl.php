@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module Application Controller
  *
- * File version: 1.0
- * Last update: 05/04/2024
+ * File version: 1.1
+ * Last update: 05/23/2024
  */
 
 namespace z4m_loginhistory\mod\controller;
@@ -30,6 +30,33 @@ use \z4m_loginhistory\mod\LoginHistoryManager;
  * history rows.
  */
 class Z4MLoginHistoryCtrl extends \AppController {
+    
+    /**
+     * Evaluates whether action is allowed or not.
+     * When authentication is required, action is allowed if connected user has
+     * full menu access or if has a profile allowing access to the  
+     * 'z4m_loginhistory' view.
+     * If no authentication is required, action is allowed if the expected view
+     * menu item is declared in the 'menu.php' script of the application.
+     * @param string $action Action name
+     * @return Boolean TRUE if action is allowed, FALSE otherwise
+     */
+    static public function isActionAllowed($action) {
+        $status = parent::isActionAllowed($action);
+        if ($status === FALSE) {
+            return FALSE;
+        }
+        $actionView = [
+            'all' => 'z4m_loginhistory',
+            'purge' => 'z4m_loginhistory'
+        ];
+        $menuItem = key_exists($action, $actionView) ? $actionView[$action] : NULL;
+        return CFG_AUTHENT_REQUIRED === TRUE
+            ? \controller\Users::hasMenuItem($menuItem) // User has right on menu item
+            : \MenuManager::getMenuItem($menuItem) !== NULL; // Menu item declared in 'menu.php'
+    }
+    
+    // Controller's actions
 
     /**
      * Returns the user login history. Expected POST parameters are:
@@ -57,6 +84,28 @@ class Z4MLoginHistoryCtrl extends \AppController {
             $response->rows = $rowsFound;
             $response->success = TRUE;
         } catch (\Exception $ex) {
+            \General::writeErrorLog(__METHOD__, $ex->getMessage());
+            $response->setFailedMessage(LC_MSG_CRI_ERR_SUMMARY, LC_MSG_CRI_ERR_GENERIC);
+        }
+        return $response;
+    }
+    
+    /**
+     * Purges all history or only rows matching the specified filter criteria.
+     * Expected POST parameter is:
+     * - search_criteria: optional criteria to apply in JSON format. Expected
+     * properties are 'status' ('0' or '1'), 'start' (W3C start date) and
+     * 'end' (W3C end date).
+     * @return \Response Success or failed message in JSON format
+     */
+    static protected function action_purge() {
+        $request = new \Request();
+        $searchCriteria = is_string($request->search_criteria) ? json_decode($request->search_criteria, TRUE) : NULL;
+        $response = new \Response();
+        try {
+            LoginHistoryManager::purge($searchCriteria);
+            $response->setSuccessMessage(NULL, MOD_Z4M_LOGINHISTORY_PURGE_SUCCESS);
+        } catch (Exception $ex) {
             \General::writeErrorLog(__METHOD__, $ex->getMessage());
             $response->setFailedMessage(LC_MSG_CRI_ERR_SUMMARY, LC_MSG_CRI_ERR_GENERIC);
         }
