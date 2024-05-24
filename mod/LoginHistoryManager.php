@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module Manager class
  *
- * File version: 1.0
- * Last update: 05/04/2024
+ * File version: 1.1
+ * Last update: 05/23/2024
  */
 
 namespace z4m_loginhistory\mod;
@@ -68,6 +68,21 @@ class LoginHistoryManager {
         self::createModuleSqlTable($dao);
         $loginInfos['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
         return $dao->store($loginInfos);
+    }
+    
+    /**
+     * Purge history rows. If search criteria are set, only the matching rows
+     * are removed
+     * @param array $searchCriteria Filter criteria. Expected keys are 'status',
+     * 'start_date' and 'end_date'.
+     * @return int The number of rows removed
+     */
+    static public function purge($searchCriteria) {
+        $dao = new model\LoginHistoryDAO();
+        if (is_array($searchCriteria)) {
+            $dao->applySearchCriteria($searchCriteria);
+        }
+        return $dao->remove(NULL);
     }
 
     /**

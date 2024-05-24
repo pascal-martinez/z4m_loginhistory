@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History Module English translations
  *
- * File version: 1.0
- * Last update: 05/04/2024
+ * File version: 1.1
+ * Last update: 05/23/2024
  */
 
 define('MOD_Z4M_LOGINHISTORY_MENU_LABEL', 'Login history');
@@ -33,3 +33,6 @@ define('MOD_Z4M_LOGINHISTORY_LIST_USER_LABEL','User');
 define('MOD_Z4M_LOGINHISTORY_LIST_STATUS_LABEL','Status');
 define('MOD_Z4M_LOGINHISTORY_LIST_FILTER_STATUS_ALL', 'ALL');
 define('MOD_Z4M_LOGINHISTORY_LIST_FILTER_PERIOD', 'Period');
+define('MOD_Z4M_LOGINHISTORY_PURGE_BUTTON_LABEL', 'Purge...');
+define('MOD_Z4M_LOGINHISTORY_PURGE_CONFIRMATION_TEXT', 'Do you confirm the history purge?');
+define('MOD_Z4M_LOGINHISTORY_PURGE_SUCCESS', 'History purge successful.');

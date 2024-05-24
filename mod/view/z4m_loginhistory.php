@@ -18,20 +18,39 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module view
  *
- * File version: 1.0
- * Last update: 05/04/2024
+ * File version: 1.1
+ * Last update: 05/23/2024
  */
 ?>
+<style>
+    #z4m-login-history-list-filter .no-wrap {
+        white-space: nowrap;
+    }
+    #z4m-login-history-list-header {
+        position: sticky;
+    }
+    #z4m-login-history-list .user-agent {
+        margin-top: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    #z4m-login-history-list .status-col {
+        width: 36px;
+        font-family: monospace;
+        font-weight: 600;
+    }
+</style>
 <!-- Filter by dates and status -->
 <form id="z4m-login-history-list-filter" class="w3-padding w3-panel w3-theme-l2">
-    <div class="w3-cell w3-mobile">
+    <div class="w3-cell w3-mobile w3-margin-bottom">
         <div class="w3-cell no-wrap"><i class="fa fa-calendar"></i>&nbsp;<b><?php echo MOD_Z4M_LOGINHISTORY_LIST_FILTER_PERIOD; ?></b>&nbsp;</div>
         <div class="w3-cell w3-mobile">
             <input class="w3-padding" type="date" name="start_filter">
             <input class="w3-padding w3-margin-right" type="date" name="end_filter">
         </div>
     </div>
-    <div class="w3-cell w3-mobile">
+    <div class="w3-cell w3-mobile w3-margin-bottom">
         <div class="w3-cell no-wrap"><i class="fa fa-list"></i>&nbsp;<b><?php echo MOD_Z4M_LOGINHISTORY_LIST_STATUS_LABEL; ?></b>&nbsp;</div>
         <div class="w3-cell no-wrap">
             <input id="z4m-login-history-list-filter-status-all" class="w3-radio" type="radio" value="" name="status_filter" checked>
@@ -39,8 +58,13 @@
             <input id="z4m-login-history-list-filter-status-ok" class="w3-radio" type="radio" value="1" name="status_filter">
             <label for="z4m-login-history-list-filter-status-ok"><?php echo MOD_Z4M_LOGINHISTORY_STATUS_SUCCESS; ?></label>&nbsp;&nbsp;
             <input id="z4m-login-history-list-filter-status-ko" class="w3-radio" type="radio" value="0" name="status_filter">
-            <label for="z4m-login-history-list-filter-status-ko"><?php echo MOD_Z4M_LOGINHISTORY_STATUS_FAILED; ?></label>
+            <label for="z4m-login-history-list-filter-status-ko" class="w3-margin-right"><?php echo MOD_Z4M_LOGINHISTORY_STATUS_FAILED; ?></label>
         </div>
+    </div>
+    <div class="w3-cell">
+        <button class="purge w3-button w3-theme-l3" type="button" data-confirmation="<?php echo MOD_Z4M_LOGINHISTORY_PURGE_CONFIRMATION_TEXT; ?>">
+            <i class="fa fa-trash fa-lg"></i> <?php echo MOD_Z4M_LOGINHISTORY_PURGE_BUTTON_LABEL; ?>
+        </button>
     </div>
 </form>
 <!-- Header -->
@@ -78,25 +102,6 @@
     </li>
     <li><h3 class="w3-red w3-center"><i class="fa fa-frown-o"></i>&nbsp;<?php echo LC_MSG_INF_NO_RESULT_FOUND; ?></h3></li>
 </ul>
-<style>
-    #z4m-login-history-list-filter .no-wrap {
-        white-space: nowrap;
-    }
-    #z4m-login-history-list-header {
-        position: sticky;
-    }
-    #z4m-login-history-list .user-agent {
-        margin-top: 4px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    #z4m-login-history-list .status-col {
-        width: 36px;
-        font-family: monospace;
-        font-weight: 600;
-    }
-</style>
 <script>
     <?php if (CFG_DEV_JS_ENABLED) : ?>
     console.log("'z4m_loginhistory' ** For debug purpose **");
@@ -106,10 +111,16 @@
         const historyList = znetdkMobile.list.make('#z4m-login-history-list', true, false);
         // Filters applied before list loading
         historyList.beforeSearchRequestCallback = function(requestData) {
+            const JSONFilters = getFilterCriteria();
+            if (JSONFilters !== null) {
+                requestData.search_criteria = JSONFilters;
+            }
+        };
+        function getFilterCriteria() {
             const filterForm = z4m.form.make('#z4m-login-history-list-filter'),
                 status = filterForm.getInputValue('status_filter'),
                 startDate = filterForm.getInputValue('start_filter'),
-                endDate = filterForm.getInputValue('end_filter');
+                endDate = filterForm.getInputValue('end_filter'),
                 filters = {};
             if (status !== '') {
                 filters.status = status;
@@ -121,9 +132,10 @@
                 filters.end = endDate;
             }
             if (Object.keys(filters).length > 0) {
-                requestData.search_criteria = JSON.stringify(filters);
+                return JSON.stringify(filters);
             }
-        };
+            return null;
+        }
         // Customization of the list display
         historyList.beforeInsertRowCallback = function(rowData) {
             rowData.user_unknown_alert = rowData.is_user_unknown === '1' ? '<i class="fa fa-exclamation w3-text-red"></i>' : '';
@@ -155,6 +167,29 @@
                 }
             }
             historyList.refresh();
+        });
+        // Purge button click events
+        $('#z4m-login-history-list-filter button.purge').on('click.z4m_loginhistory', function(){
+            z4m.messages.ask($(this).text(), $(this).data('confirmation'), null, function(isOK){
+                if(!isOK) {
+                    return;
+                }
+                const requestObj = {
+                    controller: 'Z4MLoginHistoryCtrl',
+                    action: 'purge',
+                    callback(response) {
+                        if (response.success) {
+                            historyList.refresh();
+                            z4m.messages.showSnackbar(response.msg);
+                        }
+                    }
+                };
+                const JSONFilters = getFilterCriteria();
+                if (JSONFilters !== null) {
+                    requestObj.data = {search_criteria: JSONFilters};
+                }
+                z4m.ajax.request(requestObj);
+            });
         });
         // List header sticky position taking in account ZnetDK autoHideOnScrollEnabled property
         onTopSpaceChange();

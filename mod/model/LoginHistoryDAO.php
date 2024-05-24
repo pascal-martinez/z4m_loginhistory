@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module DAO
  *
- * File version: 1.0
- * Last update: 05/04/2024 
+ * File version: 1.1
+ * Last update: 05/23/2024 
  */
 namespace z4m_loginhistory\mod\model;
 
@@ -27,6 +27,7 @@ class LoginHistoryDAO extends \DAO {
 
     protected function initDaoProperties() {
         $this->table = "zdk_user_login_history";
+        $this->tableAlias = 'ulh';
         $this->query = "SELECT ulh.*,
             IFNULL(usr.user_name,'" . MOD_Z4M_LOGINHISTORY_USER_NAME_UNKNOWN . "') AS user_name,
             IF(usr.user_name IS NULL, 1, 0) AS is_user_unknown,
