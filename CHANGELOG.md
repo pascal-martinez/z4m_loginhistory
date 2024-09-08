@@ -1,5 +1,9 @@
 # CHANGE LOG: User Login History (z4m_loginhistory)
 
+## Version 1.3, 2024-09-08
+- BUG FIXING: PHP ZnetDK Error DAO-006 when purging history if no criterium is selected.
+- BUG FIXING: the 'Purge' button is now disabled if the history is empty.
+
 ## Version 1.2, 2024-08-05
 - BUG FIXING: error 'E_WARNING - Undefined array key "HTTP_USER_AGENT"' if user
   agent is missing in the $_SERVER superglobal variable.

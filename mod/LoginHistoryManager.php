@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module Manager class
  *
- * File version: 1.2
- * Last update: 08/05/2024
+ * File version: 1.3
+ * Last update: 09/08/2024
  */
 
 namespace z4m_loginhistory\mod;
@@ -82,6 +82,8 @@ class LoginHistoryManager {
         $dao = new model\LoginHistoryDAO();
         if (is_array($searchCriteria)) {
             $dao->applySearchCriteria($searchCriteria);
+        } else {
+            $dao->applySearchCriteria(['start' => '2020-01-01']);
         }
         return $dao->remove(NULL);
     }
