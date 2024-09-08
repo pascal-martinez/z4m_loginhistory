@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * Parameters of the ZnetDK 4 Mobile Login History module
  *
- * File version: 1.1
- * Last update: 05/24/2024
+ * File version: 1.2
+ * Last update: 08/05/2024
  */
 
 /**
@@ -35,9 +35,9 @@ define('MOD_Z4M_LOGINHISTORY_SQL_SCRIPT_PATH', ZNETDK_MOD_ROOT
  * Module version number
  * @return string Version
  */
-define('MOD_Z4M_LOGINHISTORY_VERSION_NUMBER','1.1');
+define('MOD_Z4M_LOGINHISTORY_VERSION_NUMBER','1.2');
 /**
  * Module version date
  * @return string Date in W3C format
  */
-define('MOD_Z4M_LOGINHISTORY_VERSION_DATE','2024-05-24');
+define('MOD_Z4M_LOGINHISTORY_VERSION_DATE','2024-08-05');

@@ -1,5 +1,9 @@
 # CHANGE LOG: User Login History (z4m_loginhistory)
 
+## Version 1.2, 2024-08-05
+- BUG FIXING: error 'E_WARNING - Undefined array key "HTTP_USER_AGENT"' if user
+  agent is missing in the $_SERVER superglobal variable.
+
 ## Version 1.1, 2024-05-23
 - CHANGE: new Purge button added to the login hitory view (`z4m_loginhistory`).
   When clicked, all the rows matching the filter criteria are removed.

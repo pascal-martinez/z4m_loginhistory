@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module Manager class
  *
- * File version: 1.1
- * Last update: 05/23/2024
+ * File version: 1.2
+ * Last update: 08/05/2024
  */
 
 namespace z4m_loginhistory\mod;
@@ -66,7 +66,8 @@ class LoginHistoryManager {
     static public function store($loginInfos) {
         $dao = new model\LoginHistoryDAO();
         self::createModuleSqlTable($dao);
-        $loginInfos['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
+        $loginInfos['user_agent'] = key_exists('HTTP_USER_AGENT', $_SERVER) 
+                ? \General::sanitize($_SERVER['HTTP_USER_AGENT']) : '????';
         return $dao->store($loginInfos);
     }
     
