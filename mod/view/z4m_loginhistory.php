@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module view
  *
- * File version: 1.2
- * Last update: 09/08/2024
+ * File version: 1.3
+ * Last update: 10/08/2024
  */
 ?>
 <style>
@@ -42,7 +42,7 @@
     }
 </style>
 <!-- Filter by dates and status -->
-<form id="z4m-login-history-list-filter" class="w3-padding w3-panel w3-theme-l2">
+<form id="z4m-login-history-list-filter" class="w3-padding w3-panel w3-theme">
     <div class="w3-cell w3-mobile w3-margin-bottom">
         <div class="w3-cell no-wrap"><i class="fa fa-calendar"></i>&nbsp;<b><?php echo MOD_Z4M_LOGINHISTORY_LIST_FILTER_PERIOD; ?></b>&nbsp;</div>
         <div class="w3-cell w3-mobile">
@@ -62,37 +62,37 @@
         </div>
     </div>
     <div class="w3-cell">
-        <button class="purge w3-button w3-theme-l3" type="button" data-confirmation="<?php echo MOD_Z4M_LOGINHISTORY_PURGE_CONFIRMATION_TEXT; ?>">
+        <button class="purge w3-button w3-theme-action" type="button" data-confirmation="<?php echo MOD_Z4M_LOGINHISTORY_PURGE_CONFIRMATION_TEXT; ?>">
             <i class="fa fa-trash fa-lg"></i> <?php echo MOD_Z4M_LOGINHISTORY_PURGE_BUTTON_LABEL; ?>
         </button>
     </div>
 </form>
 <!-- Header -->
-<div id="z4m-login-history-list-header" class="w3-row w3-text-theme w3-theme-light w3-hide-small w3-border-bottom w3-border-theme">
-    <div class="w3-col m3 l3 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_DATETIME_LABEL; ?></b></div>
+<div id="z4m-login-history-list-header" class="w3-row w3-theme-light w3-hide-small w3-border-bottom w3-border-theme">
+    <div class="w3-col m3 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_DATETIME_LABEL; ?></b></div>
     <div class="w3-col m2 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_USER_LABEL; ?></b></div>
     <div class="w3-col m4 l5 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_LOGIN_LABEL; ?></b></div>
-    <div class="w3-col m3 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_STATUS_LABEL; ?></b></div>
+    <div class="w3-col m3 l3 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_STATUS_LABEL; ?></b></div>
 </div>
 <!-- List of user logins -->
 <ul id="z4m-login-history-list" class="w3-ul w3-hide" data-zdk-load="Z4MLoginHistoryCtrl:all">
     <li class="w3-border-theme">
         <div class="w3-row w3-stretch">
-            <div class="w3-col s6 m3 l3 w3-padding-small"><b>{{login_date_locale}}</b></div>
+            <div class="w3-col s6 m3 l2 w3-padding-small w3-monospace"><b>{{login_date_locale}}</b></div>
             <div class="w3-col s6 m2 l2 w3-padding-small">
                 {{user_unknown_alert}}
-                <b class="{{user_class}}">{{user_name}}</b>
+                <b{{user_class}}>{{user_name}}</b>
             </div>
             <div class="w3-col s12 m4 l5 w3-padding-small">
-                <span class="w3-tag w3-theme-l2">{{login_name}}</span>
-                <i class="fa fa-globe"></i> {{ip_address}}
+                <span class="w3-tag w3-theme">{{login_name}}</span>
+                <i class="fa fa-globe fa-lg w3-text-theme"></i> {{ip_address}}
                 <div class="user-agent w3-small" title="{{user_agent}}">
-                    <i class="fa fa-window-maximize"></i> {{user_agent}}
+                    <i class="fa fa-window-maximize fa-lg w3-text-theme"></i> {{user_agent}}
                 </div>
             </div>
-            <div class="w3-col s12 m3 l2 w3-padding-small">
+            <div class="w3-col s12 m3 l3 w3-padding-small">
                 <div class="w3-row">
-                    <div class="w3-col status-col" style="">
+                    <div class="w3-col status-col">
                         <span class="w3-tag {{status_class}}">{{status_label}}</span>
                     </div>
                     <div class="w3-rest">{{message}}</div>
@@ -142,15 +142,16 @@
         }
         // Customization of the list display
         historyList.beforeInsertRowCallback = function(rowData) {
-            rowData.user_unknown_alert = rowData.is_user_unknown === '1' ? '<i class="fa fa-exclamation w3-text-red"></i>' : '';
-            rowData.user_class = 'w3-text-' + (rowData.is_user_unknown === '1' ? 'red' : 'green');
+            rowData.user_unknown_alert = rowData.is_user_unknown === '1' 
+                ? '<span class="w3-tag w3-red"><i class="fa fa-exclamation fa-lg"></i> ' 
+                        + rowData.user_name + '</span>' : '';
+            rowData.user_class = rowData.is_user_unknown === '1' ? ' class="w3-hide"' : '';
             rowData.status_class = rowData.status_label === 'OK' ? 'w3-green' : 'w3-red';
             if (rowData.message.length > 0) {
                 const colorClass = rowData.status_label === 'OK' ? 'blue' : 'red';
                 const iconClass = rowData.status_label === 'OK' ? 'info-circle' : 'warning';
-                rowData.message = '<span class="w3-text-' + colorClass
-                        + '"><i class="fa fa-' + iconClass + '"></i> <b>'
-                        + rowData.message + '</b></span>';
+                rowData.message = '<i class="fa fa-' + iconClass + ' fa-lg w3-text-' 
+                        + colorClass + '"></i> ' + rowData.message;
             }
         };
         // Filter change events

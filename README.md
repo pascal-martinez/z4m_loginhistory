@@ -4,7 +4,7 @@ The **z4m_loginhistory** module extends the [ZnetDK 4 Mobile](/../../../znetdk4m
 - Provides a view that displays in a list the history of user connections to the application.
 - Purge the entire history or only those corresponding to a given period and status.
 
-![Screenshot of the User Login History view provided by the ZnetDK 4 Mobile 'z4m_loginhistory' module](https://mobile.znetdk.fr/applications/default/public/images/modules/z4m_loginhistory/screenshot.png?v1.1)
+![Screenshot of the User Login History view provided by the ZnetDK 4 Mobile 'z4m_loginhistory' module](https://mobile.znetdk.fr/applications/default/public/images/modules/z4m_loginhistory/screenshot.png?v1.2)
 ## LICENCE
 This module is published under the version 3 of GPL General Public Licence.
 
