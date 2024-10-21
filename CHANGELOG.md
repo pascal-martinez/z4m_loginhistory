@@ -1,5 +1,8 @@
 # CHANGE LOG: User Login History (z4m_loginhistory)
 
+## Version 1.5, 2024-10-21
+- CHANGE: new MOD_Z4M_LOGINHISTORY_COLOR_SCHEME PHP constant to customize the color scheme of the user login history.
+
 ## Version 1.4, 2024-10-08
 - BUG FIXING: colors applied to the UI elements are adjusted for a better WCAG legibility.
 

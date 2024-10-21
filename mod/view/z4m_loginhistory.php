@@ -18,9 +18,21 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module view
  *
- * File version: 1.3
- * Last update: 10/08/2024
+ * File version: 1.4
+ * Last update: 10/21/2024
  */
+$color = [
+    'filter_bar' => 'w3-theme',
+    'content' => 'w3-theme-light',
+    'btn_action' => 'w3-theme-action',
+    'icon' => 'w3-text-theme',
+    'tag' => 'w3-theme'
+];
+if (is_array(MOD_Z4M_LOGINHISTORY_COLOR_SCHEME)) {
+    $color = MOD_Z4M_LOGINHISTORY_COLOR_SCHEME;
+} elseif (defined('CFG_MOBILE_W3CSS_THEME_COLOR_SCHEME')) {
+    $color = CFG_MOBILE_W3CSS_THEME_COLOR_SCHEME;
+}
 ?>
 <style>
     #z4m-login-history-list-filter .no-wrap {
@@ -42,7 +54,7 @@
     }
 </style>
 <!-- Filter by dates and status -->
-<form id="z4m-login-history-list-filter" class="w3-padding w3-panel w3-theme">
+<form id="z4m-login-history-list-filter" class="w3-padding w3-panel <?php echo $color['filter_bar']; ?>">
     <div class="w3-cell w3-mobile w3-margin-bottom">
         <div class="w3-cell no-wrap"><i class="fa fa-calendar"></i>&nbsp;<b><?php echo MOD_Z4M_LOGINHISTORY_LIST_FILTER_PERIOD; ?></b>&nbsp;</div>
         <div class="w3-cell w3-mobile">
@@ -62,13 +74,13 @@
         </div>
     </div>
     <div class="w3-cell">
-        <button class="purge w3-button w3-theme-action" type="button" data-confirmation="<?php echo MOD_Z4M_LOGINHISTORY_PURGE_CONFIRMATION_TEXT; ?>">
+        <button class="purge w3-button <?php echo $color['btn_action']; ?>" type="button" data-confirmation="<?php echo MOD_Z4M_LOGINHISTORY_PURGE_CONFIRMATION_TEXT; ?>">
             <i class="fa fa-trash fa-lg"></i> <?php echo MOD_Z4M_LOGINHISTORY_PURGE_BUTTON_LABEL; ?>
         </button>
     </div>
 </form>
 <!-- Header -->
-<div id="z4m-login-history-list-header" class="w3-row w3-theme-light w3-hide-small w3-border-bottom w3-border-theme">
+<div id="z4m-login-history-list-header" class="w3-row <?php echo $color['content']; ?> w3-hide-small w3-border-bottom w3-border-theme">
     <div class="w3-col m3 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_DATETIME_LABEL; ?></b></div>
     <div class="w3-col m2 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_USER_LABEL; ?></b></div>
     <div class="w3-col m4 l5 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_LOGIN_LABEL; ?></b></div>
@@ -84,10 +96,10 @@
                 <b{{user_class}}>{{user_name}}</b>
             </div>
             <div class="w3-col s12 m4 l5 w3-padding-small">
-                <span class="w3-tag w3-theme">{{login_name}}</span>
-                <i class="fa fa-globe fa-lg w3-text-theme"></i> {{ip_address}}
+                <span class="w3-tag <?php echo $color['tag']; ?>">{{login_name}}</span>
+                <i class="fa fa-globe fa-lg <?php echo $color['icon']; ?>"></i> {{ip_address}}
                 <div class="user-agent w3-small" title="{{user_agent}}">
-                    <i class="fa fa-window-maximize fa-lg w3-text-theme"></i> {{user_agent}}
+                    <i class="fa fa-window-maximize fa-lg <?php echo $color['icon']; ?>"></i> {{user_agent}}
                 </div>
             </div>
             <div class="w3-col s12 m3 l3 w3-padding-small">
@@ -100,7 +112,7 @@
             </div>
         </div>
     </li>
-    <li><h3 class="w3-red w3-center"><i class="fa fa-frown-o"></i>&nbsp;<?php echo LC_MSG_INF_NO_RESULT_FOUND; ?></h3></li>
+    <li><h3 class="<?php echo $color['msg_error']; ?> w3-center w3-stretch"><i class="fa fa-frown-o"></i>&nbsp;<?php echo LC_MSG_INF_NO_RESULT_FOUND; ?></h3></li>
 </ul>
 <script>
     <?php if (CFG_DEV_JS_ENABLED) : ?>
