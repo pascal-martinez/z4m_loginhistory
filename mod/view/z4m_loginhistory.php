@@ -18,15 +18,17 @@
  * --------------------------------------------------------------------
  * ZnetDK 4 Mobile Login History module view
  *
- * File version: 1.4
- * Last update: 10/21/2024
+ * File version: 1.5
+ * Last update: 10/22/2024
  */
 $color = [
     'filter_bar' => 'w3-theme',
     'content' => 'w3-theme-light',
+    'list_border_bottom' => 'w3-border-theme',
     'btn_action' => 'w3-theme-action',
     'icon' => 'w3-text-theme',
-    'tag' => 'w3-theme'
+    'tag' => 'w3-theme',
+    'msg_error' => 'w3-red'
 ];
 if (is_array(MOD_Z4M_LOGINHISTORY_COLOR_SCHEME)) {
     $color = MOD_Z4M_LOGINHISTORY_COLOR_SCHEME;
@@ -80,7 +82,7 @@ if (is_array(MOD_Z4M_LOGINHISTORY_COLOR_SCHEME)) {
     </div>
 </form>
 <!-- Header -->
-<div id="z4m-login-history-list-header" class="w3-row <?php echo $color['content']; ?> w3-hide-small w3-border-bottom w3-border-theme">
+<div id="z4m-login-history-list-header" class="w3-row <?php echo $color['content']; ?> w3-hide-small w3-border-bottom <?php echo $color['list_border_bottom']; ?>">
     <div class="w3-col m3 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_DATETIME_LABEL; ?></b></div>
     <div class="w3-col m2 l2 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_USER_LABEL; ?></b></div>
     <div class="w3-col m4 l5 w3-padding-small"><b><?php echo MOD_Z4M_LOGINHISTORY_LIST_LOGIN_LABEL; ?></b></div>
@@ -88,7 +90,7 @@ if (is_array(MOD_Z4M_LOGINHISTORY_COLOR_SCHEME)) {
 </div>
 <!-- List of user logins -->
 <ul id="z4m-login-history-list" class="w3-ul w3-hide" data-zdk-load="Z4MLoginHistoryCtrl:all">
-    <li class="w3-border-theme">
+    <li class="<?php echo $color['list_border_bottom']; ?>">
         <div class="w3-row w3-stretch">
             <div class="w3-col s6 m3 l2 w3-padding-small w3-monospace"><b>{{login_date_locale}}</b></div>
             <div class="w3-col s6 m2 l2 w3-padding-small">

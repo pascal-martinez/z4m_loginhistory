@@ -18,8 +18,8 @@
  * --------------------------------------------------------------------
  * Parameters of the ZnetDK 4 Mobile Login History module
  *
- * File version: 1.5
- * Last update: 10/21/2024
+ * File version: 1.6
+ * Last update: 10/22/2024
  */
 
 /**
@@ -32,19 +32,11 @@ define('MOD_Z4M_LOGINHISTORY_SQL_SCRIPT_PATH', ZNETDK_MOD_ROOT
         . 'z4m_loginhistory.sql');
 
 /**
- * Color scheme of the login history.
+ * Color scheme applied to the login history.
  * @var array|NULL Colors used to display the home menu. The expected array keys
- * are 'filter_bar', 'content', 'btn_action', 'tag' and 'icon'.
- * If NULL, the color CSS classes applied are: 'w3-theme' for 'filter_bar', 
- * 'w3-theme-light' for 'content', 'w3-theme-action' for 'btn_action',
- * 'w3-text-theme' for 'icon' and 'w3-theme' for 'tag'.
- * Example: [
- *   'filter_bar' => 'w3-theme',
- *   'content' => 'w3-theme-light',
- *   'btn_action' => 'w3-theme-action',
- *   'icon' => 'w3-text-theme',
- *   'tag' => 'w3-theme'
- * ] 
+ * are 'filter_bar', 'list_border_bottom', 'content', 'btn_action', 'tag',
+ * 'icon' and 'msg_error'.
+ * If NULL, default color CSS classes are applied.
  */
 define('MOD_Z4M_LOGINHISTORY_COLOR_SCHEME', NULL);
 
@@ -52,9 +44,9 @@ define('MOD_Z4M_LOGINHISTORY_COLOR_SCHEME', NULL);
  * Module version number
  * @return string Version
  */
-define('MOD_Z4M_LOGINHISTORY_VERSION_NUMBER','1.5');
+define('MOD_Z4M_LOGINHISTORY_VERSION_NUMBER','1.6');
 /**
  * Module version date
  * @return string Date in W3C format
  */
-define('MOD_Z4M_LOGINHISTORY_VERSION_DATE','2024-10-21');
+define('MOD_Z4M_LOGINHISTORY_VERSION_DATE','2024-10-22');
